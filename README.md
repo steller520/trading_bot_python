@@ -6,13 +6,14 @@ A simple, modular Python trading bot that places **Market** and **Limit** orders
 
 ## 📌 Features
 
-* ✅ Place **MARKET** and **LIMIT** orders
+* ✅ Place **MARKET**, **LIMIT**, and **STOP_LIMIT** orders
 * ✅ Supports both **BUY** and **SELL**
 * ✅ Command-line interface (CLI)
-* ✅ Input validation
-* ✅ Structured code (client, orders, validators)
-* ✅ Logging of API requests and responses
-* ✅ Error handling for invalid inputs and API failures
+* ✅ Input validation with clear error messages
+* ✅ Structured code (client, orders, validators, logging)
+* ✅ Logs API request parameters and response fields
+* ✅ Rotating log file (`bot.log`) + console output
+* ✅ Error handling with full stack traces in logs
 
 ---
 
@@ -76,10 +77,12 @@ pip install -r requirements.txt
 Create a `.env` file in the root directory:
 
 ```
-API_KEY=your_api_key
-API_SECRET=your_api_secret
-BASE_URL=https://testnet.binancefuture.com
+BINANCE_API_KEY=your_testnet_api_key
+BINANCE_API_SECRET=your_testnet_api_secret
+BINANCE_API_BASE_URL=https://testnet.binancefuture.com
 ```
+
+> ⚠️ These keys must be from the **Binance Futures Testnet** (https://testnet.binancefuture.com). Never use mainnet keys.
 
 ---
 
@@ -101,29 +104,51 @@ python cli.py --symbol BTCUSDT --side SELL --type LIMIT --quantity 0.001 --price
 
 ---
 
+### 🔹 Stop-Limit Order
+
+```
+python cli.py --symbol BTCUSDT --side SELL --type STOP_LIMIT --quantity 0.001 --price 58000 --stop-price 59000
+```
+
+---
+
 ## 📄 Output
 
-The application prints:
+### Sample CLI Output
 
-* Order request summary
-* Order response (orderId, status, executedQty, etc.)
-* Success or error message
+```
+--- Order Request ---
+  Symbol     : BTCUSDT
+  Side       : SELL
+  Type       : LIMIT
+  Quantity   : 0.002
+  Price      : 70000.0
+---------------------
+
+--- Order Response ---
+  Order ID    : 3158975842
+  Status      : NEW
+  Executed Qty: 0
+  Avg Price   : 0
+----------------------
+```
 
 ---
 
 ## 🧾 Logging
 
-Logs are stored in:
+Logs are stored in `bot.log` (rotating, max 5 MB, 3 backups) and printed to the console.
+
+### Sample Log Output
 
 ```
-bot.log
+2026-03-28 12:00:01,123 - INFO - Trading bot started.
+2026-03-28 12:00:01,456 - INFO - Placing order with params: {'symbol': 'BTCUSDT', 'side': 'SELL', 'quantity': 0.002, 'type': 'LIMIT', 'price': 70000.0, 'timeInForce': 'GTC'}
+2026-03-28 12:00:01,891 - INFO - Order response: orderId=3158975842, status=NEW, executedQty=0, avgPrice=0
+2026-03-28 12:00:01,892 - INFO - Order confirmed: orderId=3158975842, status=NEW, executedQty=0, avgPrice=0
 ```
 
-Includes:
-
-* API requests
-* Responses
-* Errors
+Errors include full stack traces for easy debugging.
 
 ---
 
