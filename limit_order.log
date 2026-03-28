@@ -1,0 +1,4 @@
+2026-03-28 20:03:41,384 - INFO - Trading bot started.
+2026-03-28 20:03:41,387 - INFO - Placing order with params: {'symbol': 'BTCUSDT', 'side': 'SELL', 'quantity': 0.002, 'type': 'LIMIT', 'price': 70000.0, 'timeInForce': 'GTC'}
+2026-03-28 20:03:41,982 - INFO - Order response: orderId=13002330781, status=NEW, executedQty=0.000, avgPrice=0.00
+2026-03-28 20:03:41,984 - INFO - Order confirmed: orderId=13002330781, status=NEW, executedQty=0.000, avgPrice=0.00
